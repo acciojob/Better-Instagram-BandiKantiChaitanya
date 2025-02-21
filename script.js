@@ -1,8 +1,8 @@
-//your code here
-let dragElement=null
-let parent=document.getElementById('parent')
-let children=document.getElementsByClassName('image')
-// alert(`${child}`)
+let dragElement = null;
+let parent = document.getElementById('parent');
+let children = document.getElementsByClassName('image');
+
+// Adding event listeners to each image element for drag events
 Array.from(children).forEach(child => {
   child.addEventListener('dragstart', (e) => {
     dragElement = e.target; // Store the dragged element
@@ -11,30 +11,35 @@ Array.from(children).forEach(child => {
     }, 0);
   });
 
-	child.addEventListener('dragend', (e) => {
+  child.addEventListener('dragend', (e) => {
     setTimeout(() => {
-      dragElement.style.opacity = 1; // Reset the opacity
-      dragElement = null; // Clear the dragged element
+      dragElement.style.opacity = 1; // Reset the opacity after dragging
+      dragElement = null; // Clear the dragged element reference
     }, 0);
   });
 
-	 child.addEventListener('dragover', (e) => {
-    e.preventDefault();
+  child.addEventListener('dragover', (e) => {
+    e.preventDefault(); // Allow dropping by preventing the default behavior
     e.target.style.backgroundColor = 'lightblue'; // Change color when dragging over
   });
 
-  // Remove the background color when the drag leaves the element
   child.addEventListener('dragleave', (e) => {
-    e.target.style.backgroundColor = ''; // Reset the background color
+    e.target.style.backgroundColor = ''; // Reset background color when dragging leaves
   });
-child.addEventListener('drop', (e) => {
-    e.preventDefault(); // Prevent default behavior
+
+  child.addEventListener('drop', (e) => {
+    e.preventDefault(); // Prevent default drop behavior
+    
     if (dragElement !== e.target) {
-      // Swap the background images
-      let temp = e.target.style.backgroundImage;
-      e.target.style.backgroundImage = dragElement.style.backgroundImage;
-      dragElement.style.backgroundImage = temp;
+      // Move the dragged element to the new position
+      let dragIndex = Array.from(parent.children).indexOf(dragElement);
+      let dropIndex = Array.from(parent.children).indexOf(e.target);
+
+      // If the drop target is not the same as the dragged element
+      if (dragIndex !== dropIndex) {
+        parent.insertBefore(dragElement, dropIndex > dragIndex ? e.target.nextSibling : e.target);
+      }
     }
     e.target.style.backgroundColor = ''; // Reset background after drop
-});
+  });
 });
