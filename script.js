@@ -47,3 +47,25 @@ function drop(e) {
 
     draggedElement.classList.remove('selected');
 }
+
+
+describe('Drag and Drop Tests', () => {
+    beforeEach(() => {
+        cy.visit('your-url-here'); // Replace with your actual URL
+    });
+
+    it('All divs exist', () => {
+        for (let index = 1; index <= 6; index++) {
+            cy.get(`#drag${index}`).should('have.length', 1);
+        }
+    });
+
+    it('Drag and drop 3rd image on 6th', () => {
+        cy.get('#drag3').trigger('mousedown', { which: 1 });
+        cy.get('#drag6').trigger('mousemove').trigger('mouseup', { force: true });
+        cy.get('#drag3').should('contain', 'Image 6');
+        cy.get('#drag6').should('contain', 'Image 3');
+    });
+
+    // Add more tests for other drag-and-drop scenarios
+});
