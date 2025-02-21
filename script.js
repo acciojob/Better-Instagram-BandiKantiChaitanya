@@ -31,11 +31,11 @@ Array.from(children).forEach(child => {
     e.preventDefault(); // Prevent default drop behavior
     
     if (dragElement !== e.target) {
-      // Move the dragged element to the new position
+      // Get the index of the dragged element and the drop target
       let dragIndex = Array.from(parent.children).indexOf(dragElement);
       let dropIndex = Array.from(parent.children).indexOf(e.target);
 
-      // If the drop target is not the same as the dragged element
+      // Move the dragged element to the new position
       if (dragIndex !== dropIndex) {
         parent.insertBefore(dragElement, dropIndex > dragIndex ? e.target.nextSibling : e.target);
       }
