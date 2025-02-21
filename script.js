@@ -30,12 +30,11 @@ Array.from(children).forEach(child => {
 child.addEventListener('drop', (e) => {
     e.preventDefault(); // Prevent default behavior
     if (dragElement !== e.target) {
-      let draggedIndex = Array.from(children).indexOf(dragElement);
-      let targetIndex = Array.from(children).indexOf(e.target);
-
-      // Swap the positions
-      parent.insertBefore(dragElement, targetIndex < draggedIndex ? e.target : e.target.nextSibling);
+      // Swap the background images
+      let temp = e.target.style.backgroundImage;
+      e.target.style.backgroundImage = dragElement.style.backgroundImage;
+      dragElement.style.backgroundImage = temp;
     }
     e.target.style.backgroundColor = ''; // Reset background after drop
-  });
+});
 });
